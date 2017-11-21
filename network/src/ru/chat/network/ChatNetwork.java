@@ -11,7 +11,7 @@ import java.nio.charset.Charset;
  */
 public class ChatNetwork {
 
-    
+
     private final Socket socket; //сокет
     private final Thread rxThread;//поток слушающий входящее соединение и генерируетискл
     private final TCPConnectionListener eventListener; //слушотель событий
