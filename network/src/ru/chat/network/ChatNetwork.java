@@ -29,18 +29,39 @@ public class ChatNetwork implements TCPConnectionListener
             public void run() {
                 try {
                     eventListener.onConnectionReady(ChatNetwork.this);//экземпляр именно обромляющего класса
-                   while (!rxThread.isInterrupted()){
-                    String msg = in.readLine();
-                    eventListener.onReceiveString(ChatNetwork.this, msg);
-                } catch (IOException){
+                   while (!rxThread.isInterrupted()) {
+                       eventListener.onReceiveString(ChatNetwork.this, in.readLine());
+                   }
+                } catch (IOException e){
+                       eventListener.onConnectionException(ChatNetwork.this, e);
 
                 }finally {
-
+                    eventListener.onConnectionException(ChatNetwork.this, e);
                 }
             }
         });
         rxThread.start();
-    }
+        }
+    //отправить сообщение
+        public synchronized void sendString(String value) {
+            try {
+                out.write(value+"\r\n" );//написать сообщение
+                out.flush();//сбрасывает буфер и точн отправляет
+            } catch (IOException e) {
+                eventListener.onConnectionException(ChatNetwork.this, e);
+                disconnect();
+            }
+        }
+        //откл
+        public synchronized void disconnect() {
+            rxThread.interrupt();//прервать
+            try {
+                socket.close();//закрыть сокет
+            } catch (IOException e) {
+                eventListener.onConnectionException(ChatNetwork.this, e);
+            }
+        }
+
 
     @Override
     public void onConnectionReady(ChatNetwork topConnection) {
@@ -60,5 +81,10 @@ public class ChatNetwork implements TCPConnectionListener
     @Override
     public void onConnectionException(ChatNetwork topConnection, Exception e) {
 
+    }
+
+    @Override
+    public String toString () {
+        return "Connection: " + socket.getInetAddress()+": "+socket.getPort();
     }
 }
