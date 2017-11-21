@@ -9,13 +9,21 @@ import java.nio.charset.Charset;
 /**
  * Created by User on 21.11.2017.
  */
-public class ChatNetwork implements TCPConnectionListener
-{
+public class ChatNetwork {
+
+    
     private final Socket socket; //сокет
     private final Thread rxThread;//поток слушающий входящее соединение и генерируетискл
     private final TCPConnectionListener eventListener; //слушотель событий
     private final BufferedReader in;//поток ввода
     private final BufferedWriter out;//поток вывода
+
+    public ChatNetwork (TCPConnectionListener eventListener ,String ipAdres, int port) throws IOException {
+
+        this(eventListener, new Socket(ipAdres, port));
+
+    }
+
     public ChatNetwork (TCPConnectionListener eventListener, Socket socket) throws IOException {//генит сокет и выполняет
         this.socket = socket;
         this.eventListener = eventListener;
@@ -30,13 +38,13 @@ public class ChatNetwork implements TCPConnectionListener
                 try {
                     eventListener.onConnectionReady(ChatNetwork.this);//экземпляр именно обромляющего класса
                    while (!rxThread.isInterrupted()) {
-                       eventListener.onReceiveString(ChatNetwork.this, in.readLine());
+                       eventListener.onConnectionString(ChatNetwork.this, in.readLine());
                    }
                 } catch (IOException e){
                        eventListener.onConnectionException(ChatNetwork.this, e);
 
                 }finally {
-                    eventListener.onConnectionException(ChatNetwork.this, e);
+                    eventListener.onConnectionDisconnection(ChatNetwork.this);
                 }
             }
         });
@@ -63,28 +71,5 @@ public class ChatNetwork implements TCPConnectionListener
         }
 
 
-    @Override
-    public void onConnectionReady(ChatNetwork topConnection) {
 
-    }
-
-    @Override
-    public void onConnectionString(ChatNetwork topConnection, String value) {
-
-    }
-
-    @Override
-    public void onConnectionDisconnection(ChatNetwork topConnection) {
-
-    }
-
-    @Override
-    public void onConnectionException(ChatNetwork topConnection, Exception e) {
-
-    }
-
-    @Override
-    public String toString () {
-        return "Connection: " + socket.getInetAddress()+": "+socket.getPort();
-    }
 }
