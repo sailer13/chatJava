@@ -2,7 +2,7 @@ sudo: required
 dist: trusty
 language: java
 java:
--'1.8'
+-1.8
 before_install:
  - jdk_switcher use oraclejdk8
  os:
