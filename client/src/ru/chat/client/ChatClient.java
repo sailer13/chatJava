@@ -12,7 +12,7 @@ import java.io.IOException;
  * Created by User on 21.11.2017.
  */
 public class ChatClient extends  JFrame implements ActionListener, TCPConnectionListener{
-    private ListenerFactory factory = new ListenerFactory();
+    
 
     private static  final String IP_ADRES = "192.168.1.5";
     private static  final  int PORT = 8187;
