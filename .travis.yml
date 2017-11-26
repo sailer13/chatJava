@@ -1,8 +1,5 @@
-sudo: required
-dist: trusty
 language: java
-java:
- - '1.8.0_102'
-branches:
- only:
- - master
+
+jdk:
+  - oraclejdk8
+  - openjdk7
