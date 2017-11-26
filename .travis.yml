@@ -1,2 +1,6 @@
 language: java
-os: windows
+jdk:
+ - oraclejdk8
+branches:
+ only:
+ - master
