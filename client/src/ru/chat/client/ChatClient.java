@@ -1,6 +1,7 @@
 package ru.chat.client;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by User on 21.11.2017.
@@ -20,13 +21,24 @@ public class ChatClient extends  JFrame{
             }
         });
     }
+
+    private  final JTextArea log = new JTextArea();
+    private  final JTextField fieldName = new JTextField("1234");
+    private  final JTextField fieldInput = new JTextField();
+
     private ChatClient() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(WIDTH,HEIGHT);
         setLocationRelativeTo(null);
         setAlwaysOnTop(true);
+        log.setEditable(false);
+        log.setLineWrap(true);
 
+        add(log, BorderLayout.CENTER);
+        add(fieldInput, BorderLayout.SOUTH);
+        add(fieldName, BorderLayout.NORTH);
+        
         setVisible(true);
 
     }
