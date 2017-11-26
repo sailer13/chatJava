@@ -2,3 +2,5 @@ language: java
 
 java:
 "1.8"
+before_install:
+ - chmod +x gradlew
