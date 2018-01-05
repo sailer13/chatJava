@@ -2,5 +2,3 @@ language: java
 
 jdk:  1.8
 
-before_install:
-  - cd java
